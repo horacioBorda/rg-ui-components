@@ -1,24 +1,24 @@
 {
-    "name": "ui-components",
-    "description": "Componentes ui para uso general",
-    "main": "index.js",
-    "authors": [
-        "RedGround"
-    ],
-    "license": "ISC",
-    "homepage": "",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "jquery": "^3.2.1",
-        "angular": "^1.6.4",
-        "angular-ui-grid": "ui-grid#^4.0.4",
-        "angular-ui-select3": "ui-select#*",
+  "name": "ui-components",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "RedGround",
+      "email": "bordaquievich@hotmail.com"
     }
+  ],
+  "main": ["dist/ui-components.js"],
+  "ignore": [
+    "src",
+    "test",
+    "gulpfile.js",
+    "karma-*.conf.js",
+    "**/.*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  }
 }

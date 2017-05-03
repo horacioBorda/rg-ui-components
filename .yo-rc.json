@@ -1,0 +1,29 @@
+{
+  "generator-angularjs-library": {
+    "props": {
+      "author": {
+        "name": "RedGround",
+        "email": "bordaquievich@hotmail.com"
+      },
+      "libraryName": {
+        "original": "ui-components",
+        "camelized": "uiComponents",
+        "dasherized": "ui-components",
+        "slugified": "ui-components",
+        "parts": [
+          "ui",
+          "components"
+        ]
+      },
+      "includeModuleDirectives": true,
+      "includeModuleFilters": true,
+      "includeModuleServices": false,
+      "includeAngularModuleResource": false,
+      "includeAngularModuleCookies": false,
+      "includeAngularModuleSanitize": false,
+      "librarySrcDirectory": "src/ui-components",
+      "libraryUnitTestDirectory": "test/unit/ui-components",
+      "libraryUnitE2eDirectory": "test/e2e/ui-components"
+    }
+  }
+}
