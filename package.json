@@ -1,0 +1,21 @@
+{
+  "name": "ui-components",
+  "version": "1.0.0",
+  "description": "Componentes ui para uso general",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bordaquievich@bitbucket.org/DibBor/ui-components.git"
+  },
+  "author": "RedGround",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/DibBor/ui-components#readme",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "gulp": "^3.9.1",
+    "karma": "^1.6.0"
+  }
+}
