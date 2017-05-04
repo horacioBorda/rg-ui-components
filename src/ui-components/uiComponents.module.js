@@ -11,12 +11,12 @@
       });
 
   // Modules
-  angular.module('uiComponents.directives', []);
+  angular.module('uiComponents.components', []);
   angular.module('uiComponents.filters', []);
   angular.module('uiComponents',
       [
           'uiComponents.config',
-          'uiComponents.directives',
+          'uiComponents.components',
           'uiComponents.filters'
       ]);
 

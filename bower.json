@@ -7,7 +7,9 @@
       "email": "bordaquievich@hotmail.com"
     }
   ],
-  "main": ["dist/ui-components.js"],
+  "main": [
+    "dist/ui-components.js"
+  ],
   "ignore": [
     "src",
     "test",
@@ -15,7 +17,10 @@
     "karma-*.conf.js",
     "**/.*"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "angular-ui-grid": "ui-grid#^4.0.4",
+    "angular-ui-select3": "ui-select#*"
+  },
   "devDependencies": {
     "angular-mocks": ">=1.2.0",
     "angular-scenario": ">=1.2.0",
