@@ -1,4 +1,4 @@
-(function() {
+(function(angular) {
 	'use strict';
 	angular
 		.module('uiComponents.components')
@@ -49,4 +49,4 @@
 			
 		}
 	}
-})();
+})(angular);

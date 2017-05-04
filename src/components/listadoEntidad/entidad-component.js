@@ -1,4 +1,4 @@
- (function () {
+ (function (angular) {
      'use strict';
 
       var listadoEntidad = {
@@ -24,5 +24,5 @@
       .component('listadoEntidad',listadoEntidad);
 
      
- })(); 
+ })(angular); 
  

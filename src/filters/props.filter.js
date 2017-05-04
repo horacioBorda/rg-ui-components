@@ -1,6 +1,6 @@
 
-// (function (angular) {
-//   'use strict';
+(function (angular) {
+  'use strict';
   angular.module('uiComponents.filters')
   .filter('propsFilter',propsFilter);
 
@@ -36,4 +36,4 @@ function propsFilter(){
     return out;
   };
 }
-// })(angular); 
+})(angular); 

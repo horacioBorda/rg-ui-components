@@ -9,7 +9,17 @@
       .value('uiComponents.config', {
           debug: true
       });
-
+  angular.module('uiComponents.filters',[]);
+  angular.module('uiComponents.components',[
+    'ui.grid',
+    'ui.grid.exporter',
+    'ui.grid.selection',
+    'ui.grid.pagination',
+    'ui.grid.pinning',
+    'ui.grid.moveColumns',
+    'ui.grid.edit', 
+    'ui.grid.rowEdit'
+    ]);
   angular.module('uiComponents',
       [
           'uiComponents.config',
@@ -19,22 +29,9 @@
 
 })(angular);
 
-(function (angular) {
-	'use strict';
-	angular.module('uiComponents.components',[
-		'ui.grid',
-    'ui.grid.exporter',
-    'ui.grid.selection',
-    'ui.grid.pagination',
-    'ui.grid.pinning',
-    'ui.grid.moveColumns',
-    'ui.grid.edit', 
-    'ui.grid.rowEdit'
-		]);
-})(angular); 
 
-// (function (angular) {
-//   'use strict';
+(function (angular) {
+  'use strict';
   angular.module('uiComponents.filters')
   .filter('propsFilter',propsFilter);
 
@@ -70,12 +67,12 @@ function propsFilter(){
     return out;
   };
 }
-// })(angular); 
+})(angular); 
 (function (angular) {
 	'use strict';
 	angular.module('uiComponents.filters',[]);
 })(angular); 
- (function () {
+ (function (angular) {
      'use strict';
 
       var listadoEntidad = {
@@ -101,7 +98,7 @@ function propsFilter(){
       .component('listadoEntidad',listadoEntidad);
 
      
- })(); 
+ })(angular); 
  
 (function(angular) {
     'use strict';
@@ -236,7 +233,7 @@ function propsFilter(){
 // ADAPTARLO POR AHORA LO DEJO CON AFIP. , la solucion es en controlador hacer un condicional y pasar el parametro
 // por el DOM, por defecto si no se pasa nada toma como si fuese un dato de afip y usa ese servicio, si queremos 
 // que sea general hay que definir un servicio generico que consulte un url y la parsee a un json.
-(function() {
+(function(angular) {
     'use strict';
      var selectData = {
         restrict: 'E',
@@ -259,8 +256,8 @@ function propsFilter(){
         .component('selectData',selectData);
         
    
-})();
-(function() {
+})(angular);
+(function(angular) {
 	'use strict';
 	angular
 		.module('uiComponents.components')
@@ -311,4 +308,4 @@ function propsFilter(){
 			
 		}
 	}
-})();
+})(angular);

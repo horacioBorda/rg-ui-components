@@ -9,7 +9,17 @@
       .value('uiComponents.config', {
           debug: true
       });
-
+  angular.module('uiComponents.filters',[]);
+  angular.module('uiComponents.components',[
+    'ui.grid',
+    'ui.grid.exporter',
+    'ui.grid.selection',
+    'ui.grid.pagination',
+    'ui.grid.pinning',
+    'ui.grid.moveColumns',
+    'ui.grid.edit', 
+    'ui.grid.rowEdit'
+    ]);
   angular.module('uiComponents',
       [
           'uiComponents.config',
