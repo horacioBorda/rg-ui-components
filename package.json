@@ -1,10 +1,7 @@
 {
   "name": "rg-ui-components",
   "version": "0.1.0",
-  "author": {
-    "name": "RedGround",
-    "email": "bordaquievich@hotmail.com"
-  },
+  "author": "RedGround <bordaquievich@hotmail.com>",
   "dependencies": {},
   "devDependencies": {
     "chai": "^1.9.1",
@@ -33,5 +30,19 @@
   },
   "engines": {
     "node": ">=0.8.0"
-  }
+  },
+  "description": "",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bordaquievich@bitbucket.org/DibBor/rg-ui-components.git"
+  },
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/DibBor/rg-ui-components#readme"
 }
