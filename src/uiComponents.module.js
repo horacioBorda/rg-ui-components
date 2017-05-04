@@ -10,9 +10,6 @@
           debug: true
       });
 
-  // Modules
-  angular.module('uiComponents.components', []);
-  angular.module('uiComponents.filters', []);
   angular.module('uiComponents',
       [
           'uiComponents.config',

@@ -1,4 +1,4 @@
-(function() {
+(function(angular) {
     'use strict';
     angular.module('uiComponents.components')
         .controller('ListadoEntidadController', ListadoEntidadController);
@@ -125,4 +125,4 @@
         }
 
     }
-})();
+})(angular);

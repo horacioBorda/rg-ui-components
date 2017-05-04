@@ -6,7 +6,7 @@
     'use strict';
      var selectData = {
         restrict: 'E',
-        templateUrl: 'src/ui-components/selectData/select-template.html',
+        templateUrl: 'src/selectData/select-template.html',
         controller: 'SelectController as sc',
         bindings: {
             url: '<?',

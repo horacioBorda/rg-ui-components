@@ -3,7 +3,7 @@
 
       var listadoEntidad = {
             restrict:'E',
-            templateUrl: 'src/ui-components/listadoEntidad/entidad-template.html',
+            templateUrl: 'src/listadoEntidad/entidad-template.html',
             controller: 'ListadoEntidadController as lrc',
 
             bindings:{

@@ -26,11 +26,14 @@ describe('', function() {
     expect(hasModule('uiComponents.filters')).to.be.ok;
   });
   
+  it('cargar modulo de componentes',function(){
+     expect(hasModule('uiComponents.components')).to.be.ok;
+  });
 
   
-  it('should load directives module', function() {
-    expect(hasModule('uiComponents.directives')).to.be.ok;
-  });
+  // it('should load directives module', function() {
+  //   expect(hasModule('uiComponents.directives')).to.be.ok;
+  // });
   
 
   
