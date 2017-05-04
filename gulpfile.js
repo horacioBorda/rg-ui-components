@@ -39,10 +39,10 @@ var lintFiles = [
 gulp.task('build', function() {
   gulp.src(sourceFiles)
     .pipe(plumber())
-    .pipe(concat('ui-components.js'))
+    .pipe(concat('rg-ui-components.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(uglify())
-    .pipe(rename('ui-components.min.js'))
+    .pipe(rename('rg-ui-components.min.js'))
     .pipe(gulp.dest('./dist'));
 });
 

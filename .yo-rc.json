@@ -6,10 +6,10 @@
         "email": "bordaquievich@hotmail.com"
       },
       "libraryName": {
-        "original": "ui-components",
-        "camelized": "uiComponents",
-        "dasherized": "ui-components",
-        "slugified": "ui-components",
+        "original": "rg-ui-components",
+        "camelized": "rg-uiComponents",
+        "dasherized": "rg-ui-components",
+        "slugified": "rg-ui-components",
         "parts": [
           "ui",
           "components"
@@ -21,9 +21,9 @@
       "includeAngularModuleResource": false,
       "includeAngularModuleCookies": false,
       "includeAngularModuleSanitize": false,
-      "librarySrcDirectory": "src/ui-components",
-      "libraryUnitTestDirectory": "test/unit/ui-components",
-      "libraryUnitE2eDirectory": "test/e2e/ui-components"
+      "librarySrcDirectory": "src/rg-ui-components",
+      "libraryUnitTestDirectory": "test/unit/rg-ui-components",
+      "libraryUnitE2eDirectory": "test/e2e/rg-ui-components"
     }
   }
 }

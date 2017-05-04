@@ -1,2 +1,2 @@
-# ui-components
+# rg-ui-components
 
