@@ -3,9 +3,10 @@
 
       var listadoEntidad = {
             restrict:'E',
-            templateUrl: 'src/listadoEntidad/entidad-template.html',
+            template: '<div class="myGrid" id="grid1" ui-grid="lrc.optionsEntidades" '+
+            ' ui-grid-exporter  ui-grid-selection  ui-grid-expandable ui-grid-pagination ui-grid-edit  '+
+            'ui-grid-row-edit ui-grid-move-columns ui-grid-pinning ui-grid-resize-columns  bs-loading-overlay></div>',
             controller: 'ListadoEntidadController as lrc',
-
             bindings:{
                 selectAll:'=?',
                 deselectedAll:'=?',
