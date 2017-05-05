@@ -49,7 +49,7 @@ gulp.task('build', function() {
 /**
  * Process
  */
-gulp.task('process-all', function (done) {
+gulp.task('deploy', function (done) {
   runSequence('test-src', 'build', done);
 });
 
@@ -59,7 +59,7 @@ gulp.task('process-all', function (done) {
 gulp.task('watch', function () {
 
   // Watch JavaScript files
-  gulp.watch(sourceFiles, ['process-all']);
+  gulp.watch(sourceFiles, ['deploy']);
 
   // watch test files and re-run unit tests when changed
   gulp.watch(path.join(testDirectory, '/**/*.js'), ['test-src']);
@@ -107,5 +107,5 @@ gulp.task('test-dist-minified', function (done) {
 });
 
 gulp.task('default', function () {
-  runSequence('process-all', 'watch');
+  runSequence('deploy', 'watch');
 });
