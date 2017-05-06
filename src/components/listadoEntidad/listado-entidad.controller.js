@@ -7,33 +7,36 @@
     function ListadoEntidadController($log, $scope, $timeout, uiGridConstants, TABLEMAPPING, GenericService, i18nService) {
         var conDatos = false;
         var vm = this;
+        vm.$onInit = function() {
+            vm.selected = {};
+            vm.deselectedAll = false; // EXPONER
+            i18nService.setCurrentLang('es');
+            vm.gridApi = null;
+            vm.optionsEntidades = angular.copy(vm.gridOptions);
 
-        vm.selected = {};
-        vm.deselectedAll = false; // EXPONER
-        i18nService.setCurrentLang('es');
-        vm.gridApi = null;
-        vm.optionsEntidades = angular.copy(vm.gridOptions);
+            vm.metodosInternos = vm.metodos || {}; // por si no envian ningun metodo, inicio el objeto
+            vm.metodosInternos.actualizarDatos = actualizarDatos;
 
-        vm.metodosInternos = vm.metodos || {}; // por si no envian ningun metodo, inicio el objeto
-        vm.metodosInternos.actualizarDatos = actualizarDatos;
+            if (vm.entidades === undefined || vm.entidades.length === 0) {
+                cargarDatos(vm.path, 100, undefined, vm.config.links);
+            } else {
+                conDatos = true;
+                vm.optionsEntidades.data = vm.entidades;
 
-        if (vm.entidades === undefined || vm.entidades.length === 0) {
-            cargarDatos(vm.path, 100,undefined,vm.config.links);
-        } else {
-            conDatos = true;
-            vm.optionsEntidades.data = vm.entidades;
+            }
+            setRowListeners();
+        };
 
-        }
-        setRowListeners();
 
-        function actualizarDatos(){
-            cargarDatos(vm.path, 100,undefined,vm.config.links);
+
+        function actualizarDatos() {
+            cargarDatos(vm.path, 100, undefined, vm.config.links);
         }
 
         function cargarDatos(url, pageSize, numPage, links) {
-           
+
             vm.servicio.obtenerDatos(url, links, pageSize, numPage).then(function(entidades) {
-                
+
                 vm.entidades = entidades;
                 vm.optionsEntidades.data = entidades;
                 vm.optionsEntidades.totalItems = vm.entidades.length;

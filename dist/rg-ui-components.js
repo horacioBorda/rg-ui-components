@@ -1,3 +1,4 @@
+
 (function (angular) {
 
   // Create all modules and define dependencies to make sure they exist
@@ -5,10 +6,28 @@
   // before all nested files are concatenated by Gulp
 
   // Config
+
   angular.module('uiComponents.config', [])
       .value('uiComponents.config', {
           debug: true
-      });
+      })
+      .config(generalConfig);
+
+  function generalConfig($provide){
+     // PARA AGREGAR EL LENGUAGE DE TODOS LOS UI-GRID EN ESPAÑOL
+    $provide.decorator('GridOptions',['$delegate', 'i18nService', function($delegate, i18nService){
+        var gridOptions;
+        gridOptions = angular.copy($delegate);
+        gridOptions.initialize = function(options) {
+            var initOptions;
+            initOptions = $delegate.initialize(options);
+            return initOptions;
+        };
+        //es is the language prefix you want
+        i18nService.setCurrentLang('es');
+        return gridOptions;
+    }]);
+  }    
   angular.module('uiComponents.filters',[]);
   angular.module('uiComponents.components',[
     'ui.grid',
@@ -110,33 +129,36 @@ function propsFilter(){
     function ListadoEntidadController($log, $scope, $timeout, uiGridConstants, TABLEMAPPING, GenericService, i18nService) {
         var conDatos = false;
         var vm = this;
+        vm.$onInit = function() {
+            vm.selected = {};
+            vm.deselectedAll = false; // EXPONER
+            i18nService.setCurrentLang('es');
+            vm.gridApi = null;
+            vm.optionsEntidades = angular.copy(vm.gridOptions);
 
-        vm.selected = {};
-        vm.deselectedAll = false; // EXPONER
-        i18nService.setCurrentLang('es');
-        vm.gridApi = null;
-        vm.optionsEntidades = angular.copy(vm.gridOptions);
+            vm.metodosInternos = vm.metodos || {}; // por si no envian ningun metodo, inicio el objeto
+            vm.metodosInternos.actualizarDatos = actualizarDatos;
 
-        vm.metodosInternos = vm.metodos || {}; // por si no envian ningun metodo, inicio el objeto
-        vm.metodosInternos.actualizarDatos = actualizarDatos;
+            if (vm.entidades === undefined || vm.entidades.length === 0) {
+                cargarDatos(vm.path, 100, undefined, vm.config.links);
+            } else {
+                conDatos = true;
+                vm.optionsEntidades.data = vm.entidades;
 
-        if (vm.entidades === undefined || vm.entidades.length === 0) {
-            cargarDatos(vm.path, 100,undefined,vm.config.links);
-        } else {
-            conDatos = true;
-            vm.optionsEntidades.data = vm.entidades;
+            }
+            setRowListeners();
+        };
 
-        }
-        setRowListeners();
 
-        function actualizarDatos(){
-            cargarDatos(vm.path, 100,undefined,vm.config.links);
+
+        function actualizarDatos() {
+            cargarDatos(vm.path, 100, undefined, vm.config.links);
         }
 
         function cargarDatos(url, pageSize, numPage, links) {
-           
+
             vm.servicio.obtenerDatos(url, links, pageSize, numPage).then(function(entidades) {
-                
+
                 vm.entidades = entidades;
                 vm.optionsEntidades.data = entidades;
                 vm.optionsEntidades.totalItems = vm.entidades.length;
@@ -271,54 +293,59 @@ function propsFilter(){
    
 })(angular);
 (function(angular) {
-	'use strict';
-	angular
-		.module('uiComponents.components')
-		.controller('SelectController', SelectController);
-
-	
-	/** @ngInject */
-	function SelectController() {
-		var vm = this;
-		
-		vm.cargarDatos = cargarDatos;
-		vm.cargarCampos = cargarCampos;
-		vm.onSelect = onSelect;
+    'use strict';
+    angular
+        .module('uiComponents.components')
+        .controller('SelectController', SelectController);
 
 
-		function checkDatos(){
-			if(vm.entidades === undefined || vm.entidades.length === 0){
-				cargarDatos();
-			} else {
-				vm.ultimaEntidad = (vm.ultimaEntidad !== undefined)? vm.ultimaEntidad:vm.entidades[0];
-			}
-		}
-		function cargarCampos(select) {
-			var text = '';
-			
-			if (select.selected !== undefined) {
-				for (var index in vm.entidad.campos) {
-					text += select.selected[vm.entidad.campos[index]] ;
-					if(index < vm.entidad.campos.length){ text += ' - ';}
-				}
+    /** @ngInject */
+    function SelectController() {
+        var vm = this;
+        vm.$onInit = function() {
+            vm.cargarDatos = cargarDatos;
+            vm.cargarCampos = cargarCampos;
+            vm.onSelect = onSelect;
+        };
 
-			}
-			return text;
-		}
-		function onSelect(item) {
-			vm.clickItem({
-				$event: item
-			});
-		}
-		function cargarDatos(select) {
-			
-				vm.servicio.obtenerDatos(vm.url).then(function(data) {
-					vm.entidades = data;
-					//vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
-					vm.ultimaEntidad = (vm.ultimaEntidad !== undefined)? vm.ultimaEntidad:vm.entidades[0];
 
-				});
-			
-		}
-	}
+
+        function checkDatos() {
+            if (vm.entidades === undefined || vm.entidades.length === 0) {
+                cargarDatos();
+            } else {
+                vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+            }
+        }
+
+        function cargarCampos(select) {
+            var text = '';
+
+            if (select.selected !== undefined) {
+                for (var index in vm.entidad.campos) {
+                    text += select.selected[vm.entidad.campos[index]];
+                    if (index < vm.entidad.campos.length) { text += ' - '; }
+                }
+
+            }
+            return text;
+        }
+
+        function onSelect(item) {
+            vm.clickItem({
+                $event: item
+            });
+        }
+
+        function cargarDatos(select) {
+
+            vm.servicio.obtenerDatos(vm.url).then(function(data) {
+                vm.entidades = data;
+                //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
+                vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+
+            });
+
+        }
+    }
 })(angular);
