@@ -1,4 +1,4 @@
-(function(angular) {
+(function(angular) { 
     'use strict';
     angular
         .module('uiComponents.components')
@@ -12,6 +12,7 @@
             vm.cargarDatos = cargarDatos;
             vm.cargarCampos = cargarCampos;
             vm.onSelect = onSelect;
+            checkDatos();
         };
 
 

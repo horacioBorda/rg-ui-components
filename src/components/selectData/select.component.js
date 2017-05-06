@@ -8,7 +8,7 @@
         restrict: 'E',
         template: '<form class="form-horizontal">'+
         '<small >{{sc.configuracion.nombre}}</small>'+
-        '<div class="form-group" ng-init="sc.cargarDatos($select)">'+
+        '<div class="form-group">'+
         '<ui-select class="btn-group bootstrap-select form-control" ng-model="sc.ultimaEntidad" '+
         ' title="{{sc.configuracion.titulo}}" on-select="sc.onSelect($item)" append-to-body="true" >'+
         '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" '+
