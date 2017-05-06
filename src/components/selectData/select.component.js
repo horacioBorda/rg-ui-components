@@ -36,6 +36,7 @@
 //                  placholder: STRING 
                 //}
             servicio: '<?',  // este servicio debe implementar obtenerDatos() y debe devolver un promise con los datos ya resueltos
+            parametros: '<?', // parametros del servicio obtenerDatos, si no se lo pasa va como undefined
             entidades: '<?',    // si se traen entidades, no se consulta a servicio
             ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada
             clickItem: '&?' // evento que se dispara cuando se selecciona un item, $event es el item seleccionado

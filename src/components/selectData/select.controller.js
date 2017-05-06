@@ -46,7 +46,7 @@
 
         function cargarDatos(select) {
             if (vm.url === undefined) {
-                vm.servicio.obtenerDatos().then(function(data) {
+                vm.servicio.obtenerDatos(vm.parametros).then(function(data) {
                     vm.entidades = data;
                     //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
                     vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];

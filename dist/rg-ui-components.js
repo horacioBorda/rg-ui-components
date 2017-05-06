@@ -290,6 +290,7 @@ function propsFilter(){
 //                  placholder: STRING 
                 //}
             servicio: '<?',  // este servicio debe implementar obtenerDatos() y debe devolver un promise con los datos ya resueltos
+            parametros: '<?', // parametros del servicio obtenerDatos, si no se lo pasa va como undefined
             entidades: '<?',    // si se traen entidades, no se consulta a servicio
             ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada
             clickItem: '&?' // evento que se dispara cuando se selecciona un item, $event es el item seleccionado
@@ -349,7 +350,7 @@ function propsFilter(){
 
         function cargarDatos(select) {
             if (vm.url === undefined) {
-                vm.servicio.obtenerDatos().then(function(data) {
+                vm.servicio.obtenerDatos(vm.parametros).then(function(data) {
                     vm.entidades = data;
                     //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
                     vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
