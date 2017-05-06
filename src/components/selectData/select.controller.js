@@ -28,9 +28,9 @@
             var text = '';
 
             if (select.selected !== undefined) {
-                for (var index in vm.entidad.campos) {
-                    text += select.selected[vm.entidad.campos[index]];
-                    if (index < vm.entidad.campos.length) { text += ' - '; }
+                for (var index in vm.configuracion.campos) {
+                    text += select.selected[vm.configuracion.campos[index]];
+                    if (index < vm.configuracion.campos.length) { text += ' - '; }
                 }
 
             }
@@ -44,13 +44,21 @@
         }
 
         function cargarDatos(select) {
+            if (vm.url === undefined) {
+                vm.servicio.obtenerDatos().then(function(data) {
+                    vm.entidades = data;
+                    //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
+                    vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
 
-            vm.servicio.obtenerDatos(vm.url).then(function(data) {
-                vm.entidades = data;
-                //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
-                vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+                });
+            } else {
+                vm.servicio.obtenerDatos(vm.url).then(function(data) {
+                    vm.entidades = data;
+                    //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
+                    vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+                });
+            }
 
-            });
 
         }
     }
