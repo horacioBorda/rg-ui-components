@@ -34,7 +34,7 @@
 
             if (select.selected !== undefined) {
                 for (var index in vm.configuracion.campos) {
-                    text += byString(select.selected, vm.configuracion.campos[index]);
+                    text += byString(select.selected, vm.configuracion.campos[index].field);
                     text += ' - ';
                 }
                 text = text.substr(0, text.length - 3);

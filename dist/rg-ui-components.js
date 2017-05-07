@@ -263,7 +263,7 @@ function propsFilter(){
         template: '<form class="form-horizontal">'+
         '<small >{{sc.configuracion.nombre}}</small>'+
         '<div class="form-group">'+
-        '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.getSearchEnabled()" ng-model="sc.ultimaEntidad" '+
+        '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" '+
         ' title="{{sc.configuracion.titulo}}" on-select="sc.onSelect($item)" append-to-body="true" >'+
         '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" '+
         'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}'+
@@ -339,7 +339,7 @@ function propsFilter(){
 
             if (select.selected !== undefined) {
                 for (var index in vm.configuracion.campos) {
-                    text += byString(select.selected, vm.configuracion.campos[index]);
+                    text += byString(select.selected, vm.configuracion.campos[index].field);
                     text += ' - ';
                 }
                 text = text.substr(0, text.length - 3);
