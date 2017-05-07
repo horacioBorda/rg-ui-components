@@ -16,7 +16,7 @@
         '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: {[sc.configuracion.campos[0]]: $select.search}">'+
         '<div ng-bind-html="entidad[sc.configuracion.campos[0]] | highlight: $select.search">'+
         '</div><small ng-repeat="subcampo in sc.configuracion.subcampos">'+
-        '{{subcampo}}: <span ng-bind-html="\'\'+ entidad[subcampo] | highlight: $select.search">'+
+        '{{subcampo}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo) | highlight: $select.search">'+
         '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">'+
         '</span> --></small></ui-select-choices> </ui-select></div></form>',
         controller: 'SelectController as sc',

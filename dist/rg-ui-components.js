@@ -312,14 +312,15 @@ function propsFilter(){
     /** @ngInject */
     function SelectController() {
         var vm = this;
+
+        vm.byString = byString;
+        vm.cargarDatos = cargarDatos;
+        vm.cargarCampos = cargarCampos;
+        vm.onSelect = onSelect;
+
         vm.$onInit = function() {
-            vm.cargarDatos = cargarDatos;
-            vm.cargarCampos = cargarCampos;
-            vm.onSelect = onSelect;
             checkDatos();
         };
-
-
 
         function checkDatos() {
             if (vm.entidades === undefined || vm.entidades.length === 0) {
