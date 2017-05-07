@@ -263,12 +263,12 @@ function propsFilter(){
         template: '<form class="form-horizontal">'+
         '<small >{{sc.configuracion.nombre}}</small>'+
         '<div class="form-group">'+
-        '<ui-select class="btn-group bootstrap-select form-control" ng-model="sc.ultimaEntidad" '+
+        '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.getSearchEnabled()" ng-model="sc.ultimaEntidad" '+
         ' title="{{sc.configuracion.titulo}}" on-select="sc.onSelect($item)" append-to-body="true" >'+
         '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" '+
         'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}'+
-        '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: {[sc.configuracion.campos[0]]: $select.search}">'+
-        '<div><span>{{sc.byString(entidad,configuracion.campos[0].title)}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">'+
+        '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: {[sc.configuracion.campos[0].field]: $select.search}">'+
+        '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">'+
         '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">'+
         '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">'+
         '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">'+
@@ -289,10 +289,11 @@ function propsFilter(){
 //                  toolTip: STRING para mostrar un tooltip
 //                  placholder: STRING 
                 //}
+            searchEnabled:'<?',   //true|false, default: true 
             servicio: '<?',  // este servicio debe implementar obtenerDatos() y debe devolver un promise con los datos ya resueltos
             parametros: '<?', // parametros del servicio obtenerDatos, si no se lo pasa va como undefined
             entidades: '<?',    // si se traen entidades, no se consulta a servicio
-            ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada
+            ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada, default: la primera de la lista
             clickItem: '&?' // evento que se dispara cuando se selecciona un item, $event es el item seleccionado
         }
     };
@@ -317,11 +318,14 @@ function propsFilter(){
         vm.cargarDatos = cargarDatos;
         vm.cargarCampos = cargarCampos;
         vm.onSelect = onSelect;
+        vm.getSearchEnabled = getSearchEnabled;
 
         vm.$onInit = function() {
             checkDatos();
         };
-
+        function getSearchEnabled(){
+        	return vm.searchEnabled || true;
+        }
         function checkDatos() {
             if (vm.entidades === undefined || vm.entidades.length === 0) {
                 cargarDatos();

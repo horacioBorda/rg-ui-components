@@ -13,11 +13,14 @@
         vm.cargarDatos = cargarDatos;
         vm.cargarCampos = cargarCampos;
         vm.onSelect = onSelect;
+        vm.getSearchEnabled = getSearchEnabled;
 
         vm.$onInit = function() {
             checkDatos();
         };
-
+        function getSearchEnabled(){
+        	return vm.searchEnabled || true;
+        }
         function checkDatos() {
             if (vm.entidades === undefined || vm.entidades.length === 0) {
                 cargarDatos();
