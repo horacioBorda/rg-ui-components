@@ -22,7 +22,7 @@
 
         function getSearch($select) {
             var toSearch = {};
-            if (vm.configuracion.fieldsToSearch !== undefined) {
+            if (vm.configuracion.fieldsToSearch === undefined) {
                 vm.configuracion.campos.forEach(function(campo) {
                     toSearch[campo.field] = $select.search;
 
