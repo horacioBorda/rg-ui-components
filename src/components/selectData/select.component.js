@@ -33,7 +33,8 @@
 //                  campos: ARRAY STRING ,campos que se quiere mostrar, 
 //                  subcampos: ARRAY STRING "Subcampos que se quiere mostrar"
 //                  toolTip: STRING para mostrar un tooltip
-//                  placholder: STRING 
+//                  placholder: STRING,
+//                  fieldsToSearch: ARRAY, campos por los que se van a buscar, si no se pasa nada por defecto busca por todos los campos. 
                 //}
             searchEnabled:'<?',   //true|false, default: true 
             servicio: '<?',  // este servicio debe implementar obtenerDatos() y debe devolver un promise con los datos ya resueltos
