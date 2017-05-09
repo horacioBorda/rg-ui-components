@@ -325,20 +325,30 @@ function propsFilter(){
         vm.$onInit = function() {
             checkDatos();
         };
-        function getSearch($select){
-            var toSearch={};
-            vm.configuracion.campos.forEach(function(campo){
-                toSearch[campo.field] = $select.search;
-                
-            });
-            vm.configuracion.subcampos.forEach(function(subcampo){
-                toSearch[subcampo.field] = $select.search;
-            });
+
+        function getSearch($select) {
+            var toSearch = {};
+            if (vm.configuracion.fieldsToSearch !== undefined) {
+                vm.configuracion.campos.forEach(function(campo) {
+                    toSearch[campo.field] = $select.search;
+
+                });
+                vm.configuracion.subcampos.forEach(function(subcampo) {
+                    toSearch[subcampo.field] = $select.search;
+                });
+            } else {
+                vm.configuracion.fieldsToSearch.forEach(function(campo) {
+                    toSearch[campo.field] = $select.search;
+                });
+            }
+
             return toSearch;
         }
-        function getSearchEnabled(){
-        	return vm.searchEnabled || true;
+
+        function getSearchEnabled() {
+            return vm.searchEnabled || true;
         }
+
         function checkDatos() {
             if (vm.entidades === undefined || vm.entidades.length === 0) {
                 cargarDatos();
