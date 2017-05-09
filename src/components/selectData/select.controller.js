@@ -14,10 +14,22 @@
         vm.cargarCampos = cargarCampos;
         vm.onSelect = onSelect;
         vm.getSearchEnabled = getSearchEnabled;
+        vm.getSearch = getSearch;
 
         vm.$onInit = function() {
             checkDatos();
         };
+        function getSearch($select){
+            var toSearch={};
+            vm.configuracion.campos.forEach(function(campo){
+                toSearch[campo.field] = $select.search;
+                
+            });
+            vm.configuracion.subcampos.forEach(function(subcampo){
+                toSearch[subcampo.field] = $select.search;
+            });
+            return toSearch;
+        }
         function getSearchEnabled(){
         	return vm.searchEnabled || true;
         }

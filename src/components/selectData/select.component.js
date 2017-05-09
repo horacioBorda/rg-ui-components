@@ -13,7 +13,7 @@
         ' title="{{sc.configuracion.titulo}}" on-select="sc.onSelect($item)" append-to-body="true" >'+
         '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" '+
         'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}'+
-        '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: {[sc.configuracion.campos[0].field]: $select.search}">'+
+        '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">'+
         '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">'+
         '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">'+
         '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">'+
