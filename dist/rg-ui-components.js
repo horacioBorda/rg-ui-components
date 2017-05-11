@@ -260,19 +260,16 @@ function propsFilter(){
     'use strict';
      var selectData = {
         restrict: 'E',
-        template: '<form class="form-horizontal">'+
-        '<small >{{sc.configuracion.nombre}}</small>'+
-        '<div class="form-group">'+
+        template: 
         '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" '+
-        ' title="{{sc.configuracion.titulo}}" on-select="sc.onSelect($item)" append-to-body="true" >'+
+        'on-select="sc.onSelect($item)" >'+
         '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" '+
         'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}'+
         '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">'+
         '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">'+
         '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">'+
         '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">'+
-        '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">'+
-        '</span> --></small></ui-select-choices> </ui-select></div></form>',
+        '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">',
         controller: 'SelectController as sc',
         bindings: {
             url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio 
