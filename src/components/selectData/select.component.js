@@ -39,7 +39,7 @@
       entidades: '<?',    // si se traen entidades, no se consulta a servicio
       ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada, default: la primera de la lista
       clickItem: '&?', // evento que se dispara cuando se selecciona un item, $event es el item seleccionado
-      onLoadData: '<?' // evento que se dispara cuando se termina de cargar los datos, $item es el item seleccionado
+      onLoadData: '&?' // evento que se dispara cuando se termina de cargar los datos, $item es el item seleccionado
     }
   };
   angular
