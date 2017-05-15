@@ -27,7 +27,7 @@
         i18nService.setCurrentLang('es');
         return gridOptions;
     }]);
-  }    
+  }
   angular.module('uiComponents.filters',[]);
   angular.module('uiComponents.components',[
     'ui.grid',
@@ -36,7 +36,7 @@
     'ui.grid.pagination',
     'ui.grid.pinning',
     'ui.grid.moveColumns',
-    'ui.grid.edit', 
+    'ui.grid.edit',
     'ui.grid.rowEdit'
     ]);
   angular.module('uiComponents',
@@ -61,7 +61,7 @@ function propsFilter(){
 
     if (angular.isArray(items)) {
       var keys = Object.keys(props);
-        
+
       items.forEach(function(item) {
         var itemMatches = false;
 
@@ -86,11 +86,11 @@ function propsFilter(){
     return out;
   };
 }
-})(angular); 
+})(angular);
 (function (angular) {
 	'use strict';
 	angular.module('uiComponents.filters',[]);
-})(angular); 
+})(angular);
  (function (angular) {
      'use strict';
 
@@ -117,9 +117,9 @@ function propsFilter(){
       .module('uiComponents.components')
       .component('listadoEntidad',listadoEntidad);
 
-     
- })(angular); 
- 
+
+ })(angular);
+
 (function(angular) {
     'use strict';
     angular.module('uiComponents.components')
@@ -164,7 +164,7 @@ function propsFilter(){
                 vm.optionsEntidades.totalItems = vm.entidades.length;
                 checkSelectAll();
                 // SI HAY ALGUNA FILA SELECCIONADA VEO CUAL ES, ESTO PARA EL CASO DE QUE LA PAGINACION SEA EXTERNA, HAY
-                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS 
+                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS
                 //if(numPage!==undefined)setSelected(numPage,pageSize);
             });
 
@@ -385,9 +385,12 @@ function propsFilter(){
         }
 
         function onSelect(item) {
+          if(vm.clickItem){
             vm.clickItem({
-                $event: item
+              $event: item
             });
+          }
+
         }
 
         function cargarDatos(select) {
@@ -396,14 +399,14 @@ function propsFilter(){
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           } else {
             vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           }
 
