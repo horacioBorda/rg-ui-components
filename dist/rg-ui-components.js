@@ -27,7 +27,7 @@
         i18nService.setCurrentLang('es');
         return gridOptions;
     }]);
-  }
+  }    
   angular.module('uiComponents.filters',[]);
   angular.module('uiComponents.components',[
     'ui.grid',
@@ -36,7 +36,7 @@
     'ui.grid.pagination',
     'ui.grid.pinning',
     'ui.grid.moveColumns',
-    'ui.grid.edit',
+    'ui.grid.edit', 
     'ui.grid.rowEdit'
     ]);
   angular.module('uiComponents',
@@ -61,7 +61,7 @@ function propsFilter(){
 
     if (angular.isArray(items)) {
       var keys = Object.keys(props);
-
+        
       items.forEach(function(item) {
         var itemMatches = false;
 
@@ -86,11 +86,11 @@ function propsFilter(){
     return out;
   };
 }
-})(angular);
+})(angular); 
 (function (angular) {
 	'use strict';
 	angular.module('uiComponents.filters',[]);
-})(angular);
+})(angular); 
  (function (angular) {
      'use strict';
 
@@ -117,9 +117,9 @@ function propsFilter(){
       .module('uiComponents.components')
       .component('listadoEntidad',listadoEntidad);
 
-
- })(angular);
-
+     
+ })(angular); 
+ 
 (function(angular) {
     'use strict';
     angular.module('uiComponents.components')
@@ -164,7 +164,7 @@ function propsFilter(){
                 vm.optionsEntidades.totalItems = vm.entidades.length;
                 checkSelectAll();
                 // SI HAY ALGUNA FILA SELECCIONADA VEO CUAL ES, ESTO PARA EL CASO DE QUE LA PAGINACION SEA EXTERNA, HAY
-                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS
+                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS 
                 //if(numPage!==undefined)setSelected(numPage,pageSize);
             });
 
@@ -256,12 +256,12 @@ function propsFilter(){
 // ADAPTARLO POR AHORA LO DEJO CON AFIP. , la solucion es en controlador hacer un condicional y pasar el parametro
 // por el DOM, por defecto si no se pasa nada toma como si fuese un dato de afip y usa ese servicio, si queremos
 // que sea general hay que definir un servicio generico que consulte un url y la parsee a un json.
-(function(angular) {
-    'use strict';
+(function (angular) {
+  'use strict';
   var selectData;
   selectData = {
     restrict: 'E',
-    template: '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
+    template: ' <div class="input-group"><ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
     'on-select="sc.onSelect($item)" >' +
     '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
     'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
@@ -269,7 +269,9 @@ function propsFilter(){
     '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
     '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
     '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">' +
-    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">',
+    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">-->'+
+    '<span class="input-group-btn"><button type="button" class="btn btn-danger">'+
+    '<span class="ion-ios-search-strong"></span> </button> </span></div>',
     controller: 'SelectController as sc',
     bindings: {
       url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio
@@ -292,13 +294,14 @@ function propsFilter(){
       parametros: '<?', // parametros del servicio obtenerDatos, si no se lo pasa va como undefined
       entidades: '<?',    // si se traen entidades, no se consulta a servicio
       ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada, default: la primera de la lista
+      busquedaAvanzada:'<?', // aca va la configuracion de la tabla para la busqueda avanzada
       clickItem: '&?', // evento que se dispara cuando se selecciona un item, $event es el item seleccionado
       onLoadData: '&?' // evento que se dispara cuando se termina de cargar los datos, $item es el item seleccionado
     }
   };
   angular
-        .module('uiComponents.components')
-        .component('selectData',selectData);
+    .module('uiComponents.components')
+    .component('selectData', selectData);
 
 
 })(angular);
@@ -385,12 +388,9 @@ function propsFilter(){
         }
 
         function onSelect(item) {
-          if(vm.clickItem){
             vm.clickItem({
-              $event: item
+                $event: item
             });
-          }
-
         }
 
         function cargarDatos(select) {
@@ -399,14 +399,14 @@ function propsFilter(){
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
+              vm.onLoadData({$item: vm.ultimaEntidad});
             });
           } else {
             vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
+              vm.onLoadData({$item: vm.ultimaEntidad});
             });
           }
 
