@@ -7,7 +7,7 @@
   var selectData;
   selectData = {
     restrict: 'E',
-    template: '<ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
+    template: ' <div class="input-group"><ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
     'on-select="sc.onSelect($item)" >' +
     '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
     'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
@@ -17,7 +17,7 @@
     '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">' +
     '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">-->'+
     '<span class="input-group-btn"><button type="button" class="btn btn-danger">'+
-    '<span class="ion-ios-search-strong"></span> </button> </span>',
+    '<span class="ion-ios-search-strong"></span> </button> </span></div>',
     controller: 'SelectController as sc',
     bindings: {
       url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio
