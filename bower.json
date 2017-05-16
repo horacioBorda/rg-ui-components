@@ -19,7 +19,8 @@
   ],
   "dependencies": {
     "angular-ui-grid": "ui-grid#^4.0.4",
-    "angular-ui-select3": "ui-select#*"
+    "angular-ui-select3": "ui-select#*",
+    "angular-bootstrap": "^2.5.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.0",

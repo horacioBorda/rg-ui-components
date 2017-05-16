@@ -15,7 +15,9 @@
     '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
     '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
     '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">' +
-    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">',
+    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">-->'+
+    '<span class="input-group-btn"><button type="button" class="btn btn-danger">'+
+    '<span class="ion-ios-search-strong"></span> </button> </span>',
     controller: 'SelectController as sc',
     bindings: {
       url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio
@@ -38,6 +40,7 @@
       parametros: '<?', // parametros del servicio obtenerDatos, si no se lo pasa va como undefined
       entidades: '<?',    // si se traen entidades, no se consulta a servicio
       ultimaEntidad: '=?', // entidad que se  va a mostrar como seleccionada, default: la primera de la lista
+      busquedaAvanzada:'<?', // aca va la configuracion de la tabla para la busqueda avanzada
       clickItem: '&?', // evento que se dispara cuando se selecciona un item, $event es el item seleccionado
       onLoadData: '&?' // evento que se dispara cuando se termina de cargar los datos, $item es el item seleccionado
     }
