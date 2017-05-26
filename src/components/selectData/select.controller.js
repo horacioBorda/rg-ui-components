@@ -91,14 +91,14 @@
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           } else {
             vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           }
 

@@ -164,7 +164,7 @@ function propsFilter(){
                 vm.optionsEntidades.totalItems = vm.entidades.length;
                 checkSelectAll();
                 // SI HAY ALGUNA FILA SELECCIONADA VEO CUAL ES, ESTO PARA EL CASO DE QUE LA PAGINACION SEA EXTERNA, HAY
-                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS 
+                // QUE RECORDAR CUALES FILAS FUERON SELECCIONADAS
                 //if(numPage!==undefined)setSelected(numPage,pageSize);
             });
 
@@ -179,57 +179,62 @@ function propsFilter(){
             }
         }
 
-        function setRowListeners() {
-            console.log(vm.optionsEntidades);
-            vm.optionsEntidades.onRegisterApi = function(gridApi) {
-                vm.gridApi = gridApi;
+      function setRowListeners() {
+        console.log(vm.optionsEntidades);
+        vm.optionsEntidades.onRegisterApi = function(gridApi) {
+          vm.gridApi = gridApi;
 
-                gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
+          gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
 
-                    if (row.isExpanded) {
+            if (row.isExpanded) {
 
-                        row.entity.subGridOptions = angular.copy(vm.optionsEntidades.subGridColumnDefs);
-                        vm.servicio.obtenerDatosSubgrilla(row.entity._links[vm.config.subGrilla].href).then(function(subEntity) {
+              row.entity.subGridOptions = angular.copy(vm.optionsEntidades.subGridColumnDefs);
+              if(!vm.config.datosSubgrilla){
+                vm.servicio.obtenerDatosSubgrilla(row.entity._links[vm.config.subGrilla].href).then(function(subEntity) {
 
-                            row.entity.subGridOptions.data = subEntity;
+                  row.entity.subGridOptions.data = subEntity;
 
-                        });
-
-                    }
                 });
-                gridApi.pagination.on.paginationChanged($scope, function(numPage, pageSize) {
-                    //ESTA PARTE CONSULTA POR PAGINA Y POR EL TAMAÑO DE PAGINA, PARA DESPUES DEJO
-                    // vm.optionsEntidades.pageNumber = numPage;
-                    // console.log(vm.entidadesSeleccionadas);
-                    //  vm.optionsEntidades.pageSize = pageSize;
-                    //  cargarDatos(vm.path,pageSize,numPage-1);
+              } else {
+                row.entity.subGridOptions.data = vm.servicio.agregarFuncionesSubgrilla(row.entity[vm.config.campoDatosSubgrilla])||[];
+              }
 
-                    // getPage();
-                });
-                gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                    vm.entidadesSeleccionadas = gridApi.selection.getSelectedRows();
-                    if (typeof vm.clickItem !== 'undefined') vm.clickItem({
-                        $entidad: vm.entidadesSeleccionadas,
-                        $entidadesSeleccionadas: vm.entidadesSeleccionadas
-                    });
-                });
-                gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-                    vm.entidadesSeleccionadas = gridApi.selection.getSelectedRows();
-                    if (typeof vm.clickItem !== 'undefined') vm.clickItem({
-                        $entidad: vm.entidadesSeleccionadas,
-                        $entidadesSeleccionadas: vm.entidadesSeleccionadas
-                    });
-                });
 
-                // en honor a Pablo Guidici
-                if (conDatos) {
-                    $timeout(function() {
-                        checkSelectAll();
-                    }, 150);
-                }
+            }
+          });
+          gridApi.pagination.on.paginationChanged($scope, function(numPage, pageSize) {
+            //ESTA PARTE CONSULTA POR PAGINA Y POR EL TAMAÑO DE PAGINA, PARA DESPUES DEJO
+            // vm.optionsEntidades.pageNumber = numPage;
+            // console.log(vm.entidadesSeleccionadas);
+            //  vm.optionsEntidades.pageSize = pageSize;
+            //  cargarDatos(vm.path,pageSize,numPage-1);
 
-            };
-        }
+            // getPage();
+          });
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            vm.entidadesSeleccionadas = gridApi.selection.getSelectedRows();
+            if (typeof vm.clickItem !== 'undefined') vm.clickItem({
+              $entidad: vm.entidadesSeleccionadas,
+              $entidadesSeleccionadas: vm.entidadesSeleccionadas
+            });
+          });
+          gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
+            vm.entidadesSeleccionadas = gridApi.selection.getSelectedRows();
+            if (typeof vm.clickItem !== 'undefined') vm.clickItem({
+              $entidad: vm.entidadesSeleccionadas,
+              $entidadesSeleccionadas: vm.entidadesSeleccionadas
+            });
+          });
+
+          // en honor a Pablo Guidici
+          if (conDatos) {
+            $timeout(function() {
+              checkSelectAll();
+            }, 150);
+          }
+
+        };
+      }
 
         function setSelected(numPage, pageSize) {
             var elementSelected = [];
@@ -399,14 +404,14 @@ function propsFilter(){
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           } else {
             vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
               vm.entidades = data;
               //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
               vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              vm.onLoadData({$item: vm.ultimaEntidad});
+              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
             });
           }
 
