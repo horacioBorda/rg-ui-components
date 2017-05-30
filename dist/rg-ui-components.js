@@ -257,6 +257,43 @@ function propsFilter(){
     }
 })(angular);
 
+(function(){
+    'use strict';
+    angular.module('uiComponents.components')
+    .controller('BuscarEntidadController',BuscarEntidadController);
+
+    /** @ngInject */
+    function BuscarEntidadController ($uibModalInstance,configuracionTabla, entidades){
+        var vm = this;
+      vm.configuracionTabla=configuracionTabla;
+      vm.entidades = entidades;
+
+      vm.aceptar = aceptar;
+      vm.cancelar = cancelar;
+      vm.getTitle = getTitle;
+      vm.clickEntidad = clickEntidad;
+      function getTitle() {
+        if(vm.configuracionTabla.title){
+          return vm.configuracionTabla.title;
+
+        }
+        return "";
+
+      }
+      function clickEntidad(entitdad) {
+        vm.entitdadSeleccionada = entitdad[0];
+      }
+
+      function aceptar() {
+        $uibModalInstance.close(vm.entitdadSeleccionada);
+      }
+
+      function cancelar() {
+        $uibModalInstance.dismiss();
+      }
+    }
+})();
+
 // COMPONENTE PENSADO PARA QUE FUNCIONE PARA TODOS LOS TIPO DE DATOS, NO SOLO AFIP, ES CUESTION DE
 // ADAPTARLO POR AHORA LO DEJO CON AFIP. , la solucion es en controlador hacer un condicional y pasar el parametro
 // por el DOM, por defecto si no se pasa nada toma como si fuese un dato de afip y usa ese servicio, si queremos
@@ -266,17 +303,26 @@ function propsFilter(){
   var selectData;
   selectData = {
     restrict: 'E',
-    template: ' <div class="input-group"><ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
-    'on-select="sc.onSelect($item)" >' +
-    '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
-    'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
-    '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">' +
-    '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
-    '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
-    '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">' +
-    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">-->'+
-    '<span class="input-group-btn"><button type="button" class="btn btn-danger">'+
-    '<span class="ion-ios-search-strong"></span> </button> </span></div>',
+    template:'<div class="input-group">   ' +
+    '<ui-select class="bootstrap-select form-control" ng-model="sc.ultimaEntidad" on-select="sc.onSelect($item)">' +
+    '<ui-select-match placeholder="{{sc.configuracion.placeholder}}">{{sc.cargarCampos($select)}}</ui-select-match>    ' +
+    '<ui-select-choices style="margin-top: 34px" repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">   ' +
+    '     <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search"></span> <small ng-repeat="subcampo in sc.configuracion.subcampos">' +
+    '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search"> </span></small>   ' +
+    '  </ui-select-choices>        </ui-select> ' +
+    '      <span class="input-group-btn" ng-if="sc.busquedaAvanzada">      ' +
+    '<button type="button" ng-click="sc.showBuscar()" class="btn btn-default">      ' +
+    '<span class="ion-ios-search-strong"></span>      </button>      </span></div>',
+    // template: ' <ui-select theme="bootstrap" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
+    // 'on-select="sc.onSelect($item)" >' +
+    // '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
+    // 'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
+    // '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">' +
+    // '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
+    // '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
+    // '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">',
+
+
     controller: 'SelectController as sc',
     bindings: {
       url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio
@@ -312,110 +358,145 @@ function propsFilter(){
 })(angular);
 
 (function(angular) {
-    'use strict';
-    angular
-        .module('uiComponents.components')
-        .controller('SelectController', SelectController);
+  'use strict';
+  angular
+    .module('uiComponents.components')
+    .controller('SelectController', SelectController);
 
 
-    /** @ngInject */
-    function SelectController() {
-        var vm = this;
+  /** @ngInject */
+  function SelectController($uibModal) {
+    var vm = this;
 
-        vm.byString = byString;
-        vm.cargarDatos = cargarDatos;
-        vm.cargarCampos = cargarCampos;
-        vm.onSelect = onSelect;
-        vm.getSearchEnabled = getSearchEnabled;
-        vm.getSearch = getSearch;
+    vm.byString = byString;
+    vm.cargarDatos = cargarDatos;
+    vm.cargarCampos = cargarCampos;
+    vm.onSelect = onSelect;
+    vm.getSearchEnabled = getSearchEnabled;
+    vm.getSearch = getSearch;
+    vm.showBuscar = showBuscar;
 
-        vm.$onInit = function() {
-            checkDatos();
-        };
+    vm.$onInit = function() {
+      checkDatos();
+    };
 
-        function getSearch($select) {
-            var toSearch = {};
-            if (vm.configuracion.fieldsToSearch === undefined) {
-                vm.configuracion.campos.forEach(function(campo) {
-                    toSearch[campo.field] = $select.search;
+    function getSearch($select) {
+      var toSearch = {};
+      if (vm.configuracion.fieldsToSearch === undefined) {
+        vm.configuracion.campos.forEach(function(campo) {
+          toSearch[campo.field] = $select.search;
 
-                });
-                vm.configuracion.subcampos.forEach(function(subcampo) {
-                    toSearch[subcampo.field] = $select.search;
-                });
-            } else {
-                vm.configuracion.fieldsToSearch.forEach(function(campo) {
-                    toSearch[campo.field] = $select.search;
-                });
-            }
+        });
+        vm.configuracion.subcampos.forEach(function(subcampo) {
+          toSearch[subcampo.field] = $select.search;
+        });
+      } else {
+        vm.configuracion.fieldsToSearch.forEach(function(campo) {
+          toSearch[campo.field] = $select.search;
+        });
+      }
 
-            return toSearch;
-        }
-
-        function getSearchEnabled() {
-            return vm.searchEnabled || true;
-        }
-
-        function checkDatos() {
-            if (vm.entidades === undefined || vm.entidades.length === 0) {
-                cargarDatos();
-            } else {
-                vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-            }
-        }
-
-        function cargarCampos(select) {
-            var text = '';
-
-            if (select.selected !== undefined) {
-                for (var index in vm.configuracion.campos) {
-                    text += byString(select.selected, vm.configuracion.campos[index].field);
-                    text += ' - ';
-                }
-                text = text.substr(0, text.length - 3);
-            }
-            return text;
-        }
-
-        function byString(o, s) {
-            s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-            s = s.replace(/^\./, ''); // strip a leading dot
-            var a = s.split('.');
-            for (var i = 0, n = a.length; i < n; ++i) {
-                var k = a[i];
-                if (k in o) {
-                    o = o[k];
-                } else {
-                    return;
-                }
-            }
-            return o;
-        }
-
-        function onSelect(item) {
-            vm.clickItem({
-                $event: item
-            });
-        }
-
-        function cargarDatos(select) {
-          if (vm.url !== undefined) {
-            vm.servicio.obtenerDatos(vm.url).then(function (data) {
-              vm.entidades = data;
-              //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
-              vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
-            });
-          } else {
-            vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
-              vm.entidades = data;
-              //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
-              vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
-              if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
-            });
-          }
-
-
-        }
+      return toSearch;
     }
+
+    function getSearchEnabled() {
+      return vm.searchEnabled || true;
+    }
+
+    function showBuscar() {
+      var modalInstanceProg = $uibModal.open({
+        animation: true,
+        template: '<!-- HEADER -->                ' +
+        '<div class="modal-header">                    <h3 class="modal-title" id="modal-title">{{bac.getTitle()}}</h3>                ' +
+        '</div>                <!-- BODY -->                <div class="modal-body" id="modal-body"> ' +
+        '<listado-entidad grid-options="bac.configuracionTabla" entidades-seleccionadas="bac.entidadesSeleccionadas" click-item="bac.clickEntidad($entidad)" entidades="bac.entidades" ></listado-entidad>               ' +
+        '              </div><!-- FOOTER --><div class="modal-footer">           ' +
+        '     <button class="btn btn-primary" type="button" ng-click="bac.aceptar()" ng-disabled="!bac.entitdadSeleccionada">Aceptar</button>      ' +
+        '          <button class="btn btn-warning" type="button" ng-click="bac.cancelar()">Cancelar</button>                </div>',
+        controller:"BusquedaAvanzadaCtrl",
+        controllerAs: 'bac',
+        size: "lg",
+        resolve: {
+          configuracionTabla: function () {
+            return vm.busquedaAvanzada;
+          },
+          entidades: function () {
+            return vm.entidades;
+          }
+        },
+        appendTo: undefined
+
+      });
+
+      modalInstanceProg.result.then(function (entidadsSeleccionadas) {
+        vm.ultimaEntidad = entidadsSeleccionadas;
+        onSelect(entidadsSeleccionadas);
+      }, function () {
+
+      });
+    }
+    function checkDatos() {
+      if (vm.entidades === undefined || vm.entidades.length === 0) {
+        cargarDatos();
+      } else {
+        vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+      }
+    }
+
+    function cargarCampos(select) {
+      var text = '';
+
+      if (select.selected !== undefined) {
+        for (var index in vm.configuracion.campos) {
+          text += byString(select.selected, vm.configuracion.campos[index].field);
+          text += ' - ';
+        }
+        text = text.substr(0, text.length - 3);
+      }
+      return text;
+    }
+
+    function byString(o, s) {
+      s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+      s = s.replace(/^\./, ''); // strip a leading dot
+      var a = s.split('.');
+      for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+          o = o[k];
+        } else {
+          return;
+        }
+      }
+      return o;
+    }
+
+    function onSelect(item) {
+      if(!vm.clickItem)return;
+      vm.clickItem({
+        $event: item
+      });
+    }
+
+    function cargarDatos(select) {
+      if (vm.url !== undefined) {
+        vm.servicio.obtenerDatos(vm.url).then(function (data) {
+          vm.entidades = data;
+          //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
+          vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+          if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
+        });
+      } else {
+        vm.servicio.obtenerDatos(vm.parametros).then(function (data) {
+          vm.entidades = data;
+          //vm.entidadSeleccionada = (vm.ultimaEntidad != undefined)? vm.ultimaEntidad:vm.entidades[0];
+          vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
+          if(vm.onLoadData)vm.onLoadData({$item: vm.ultimaEntidad});
+        });
+      }
+
+
+    }
+  }
 })(angular);
+

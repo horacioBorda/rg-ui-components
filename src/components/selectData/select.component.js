@@ -7,17 +7,26 @@
   var selectData;
   selectData = {
     restrict: 'E',
-    template: ' <div class="input-group"><ui-select class="btn-group bootstrap-select form-control" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
-    'on-select="sc.onSelect($item)" >' +
-    '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
-    'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
-    '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">' +
-    '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
-    '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
-    '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">' +
-    '</span><!--  email: {{person.email}}age: <span ng-bind-html="\'\'+person.age | highlight: $select.search">-->'+
-    '<span class="input-group-btn"><button type="button" class="btn btn-danger">'+
-    '<span class="ion-ios-search-strong"></span> </button> </span></div>',
+    template:'<div class="input-group">   ' +
+    '<ui-select class="bootstrap-select form-control" ng-model="sc.ultimaEntidad" on-select="sc.onSelect($item)">' +
+    '<ui-select-match placeholder="{{sc.configuracion.placeholder}}">{{sc.cargarCampos($select)}}</ui-select-match>    ' +
+    '<ui-select-choices style="margin-top: 34px" repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">   ' +
+    '     <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search"></span> <small ng-repeat="subcampo in sc.configuracion.subcampos">' +
+    '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search"> </span></small>   ' +
+    '  </ui-select-choices>        </ui-select> ' +
+    '      <span class="input-group-btn" ng-if="sc.busquedaAvanzada">      ' +
+    '<button type="button" ng-click="sc.showBuscar()" class="btn btn-default">      ' +
+    '<span class="ion-ios-search-strong"></span>      </button>      </span></div>',
+    // template: ' <ui-select theme="bootstrap" search-enabled="sc.searchEnabled" ng-model="sc.ultimaEntidad" ' +
+    // 'on-select="sc.onSelect($item)" >' +
+    // '<ui-select-match placeholder="{{sc.configuracion.placeholder}}" popover-popup-delay="750" uib-popover="{{sc.configuracion.toolTip}}" ' +
+    // 'popover-trigger="mouseenter" popover-placement="bottom">{{sc.cargarCampos($select)}}' +
+    // '</ui-select-match><ui-select-choices repeat="entidad in sc.entidades | propsFilter: sc.getSearch($select)">' +
+    // '<div><span>{{sc.configuracion.campos[0].title}} </span> <span ng-bind-html="entidad[sc.configuracion.campos[0].field] | highlight: $select.search">' +
+    // '</span></div><small ng-repeat="subcampo in sc.configuracion.subcampos">' +
+    // '{{subcampo.title}}: <span ng-bind-html="\'\'+ sc.byString(entidad,subcampo.field) | highlight: $select.search">',
+
+
     controller: 'SelectController as sc',
     bindings: {
       url: '<?',//esta url no se utiliza por el momkento, pero esta pensado para que sea utilizado por el servicio
