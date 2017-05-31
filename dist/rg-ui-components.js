@@ -409,12 +409,12 @@ function propsFilter(){
         template: '<!-- HEADER -->                ' +
         '<div class="modal-header">                    <h3 class="modal-title" id="modal-title">{{bac.getTitle()}}</h3>                ' +
         '</div>                <!-- BODY -->                <div class="modal-body" id="modal-body"> ' +
-        '<listado-entidad grid-options="bac.configuracionTabla" entidades-seleccionadas="bac.entidadesSeleccionadas" click-item="bac.clickEntidad($entidad)" entidades="bac.entidades" ></listado-entidad>               ' +
+        '<listado-entidad grid-options="bac.configuracionTabla" entidades-seleccionadas="bec.entidadesSeleccionadas" click-item="bec.clickEntidad($entidad)" entidades="bec.entidades" ></listado-entidad>               ' +
         '              </div><!-- FOOTER --><div class="modal-footer">           ' +
-        '     <button class="btn btn-primary" type="button" ng-click="bac.aceptar()" ng-disabled="!bac.entitdadSeleccionada">Aceptar</button>      ' +
-        '          <button class="btn btn-warning" type="button" ng-click="bac.cancelar()">Cancelar</button>                </div>',
-        controller:"BusquedaAvanzadaCtrl",
-        controllerAs: 'bac',
+        '     <button class="btn btn-primary" type="button" ng-click="bec.aceptar()" ng-disabled="!bec.entitdadSeleccionada">Aceptar</button>      ' +
+        '          <button class="btn btn-warning" type="button" ng-click="bec.cancelar()">Cancelar</button>                </div>',
+        controller:"BuscarEntidadController",
+        controllerAs: 'bec',
         size: "lg",
         resolve: {
           configuracionTabla: function () {
