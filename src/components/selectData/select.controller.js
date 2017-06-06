@@ -9,14 +9,22 @@
   function SelectController($uibModal) {
     var vm = this;
 
+    var lastSearch;
+
     vm.byString = byString;
     vm.cargarDatos = cargarDatos;
     vm.cargarCampos = cargarCampos;
     vm.onSelect = onSelect;
     vm.getSearchEnabled = getSearchEnabled;
     vm.getSearch = getSearch;
-    vm.showBuscar = showBuscar;
+    vm.clickButton = clickButton;
+    vm.getClass = getClass;
 
+    function getClass() {
+      if(!vm.entidadesFiltradas) return 'ion-ios-search-strong';
+      if(vm.entidadesFiltradas.length ===0 && vm.configuracion.agregarItem) return'ion-plus-round';
+      return 'ion-ios-search-strong';
+    }
     vm.$onInit = function() {
       checkDatos();
     };
@@ -36,7 +44,7 @@
           toSearch[campo.field] = $select.search;
         });
       }
-
+      lastSearch = $select.search;
       return toSearch;
     }
 
@@ -44,37 +52,48 @@
       return vm.searchEnabled || true;
     }
 
-    function showBuscar() {
-      var modalInstanceProg = $uibModal.open({
-        animation: true,
-        template: '<!-- HEADER -->                ' +
-        '<div class="modal-header">                    <h3 class="modal-title" id="modal-title">{{bac.getTitle()}}</h3>                ' +
-        '</div>                <!-- BODY -->                <div class="modal-body" id="modal-body"> ' +
-        '<listado-entidad grid-options="bac.configuracionTabla" entidades-seleccionadas="bec.entidadesSeleccionadas" click-item="bec.clickEntidad($entidad)" entidades="bec.entidades" ></listado-entidad>               ' +
-        '              </div><!-- FOOTER --><div class="modal-footer">           ' +
-        '     <button class="btn btn-primary" type="button" ng-click="bec.aceptar()" ng-disabled="!bec.entitdadSeleccionada">Aceptar</button>      ' +
-        '          <button class="btn btn-warning" type="button" ng-click="bec.cancelar()">Cancelar</button>                </div>',
-        controller:"BuscarEntidadController",
-        controllerAs: 'bec',
-        size: "lg",
-        resolve: {
-          configuracionTabla: function () {
-            return vm.busquedaAvanzada;
+    function clickButton(select) {
+      if(vm.entidadesFiltradas.length === 0 && vm.configuracion.agregarItem){
+
+        var nuevoProducto = new Producto(lastSearch);
+        nuevoProducto.nuevo = true;
+        vm.entidades.unshift(nuevoProducto);
+        vm.ultimaEntidad = nuevoProducto;
+        onSelect(vm.ultimaEntidad);
+
+      } else {
+        var modalInstanceProg = $uibModal.open({
+          animation: true,
+          template: '<!-- HEADER -->                ' +
+          '<div class="modal-header">                    <h3 class="modal-title" id="modal-title">{{bac.getTitle()}}</h3>                ' +
+          '</div>                <!-- BODY -->                <div class="modal-body" id="modal-body"> ' +
+          '<listado-entidad grid-options="bec.configuracionTabla" entidades-seleccionadas="bec.entidadesSeleccionadas" click-item="bec.clickEntidad($entidad)" entidades="bec.entidades" ></listado-entidad>               ' +
+          '              </div><!-- FOOTER --><div class="modal-footer">           ' +
+          '     <button class="btn btn-primary" type="button" ng-click="bec.aceptar()" ng-disabled="!bec.entitdadSeleccionada">Aceptar</button>      ' +
+          '          <button class="btn btn-warning" type="button" ng-click="bec.cancelar()">Cancelar</button>                </div>',
+          controller:"BuscarEntidadController",
+          controllerAs: 'bec',
+          size: "lg",
+          resolve: {
+            configuracionTabla: function () {
+              return vm.busquedaAvanzada;
+            },
+            entidades: function () {
+              return vm.entidades;
+            }
           },
-          entidades: function () {
-            return vm.entidades;
-          }
-        },
-        appendTo: undefined
+          appendTo: undefined
 
-      });
+        });
 
-      modalInstanceProg.result.then(function (entidadsSeleccionadas) {
-        vm.ultimaEntidad = entidadsSeleccionadas;
-        onSelect(entidadsSeleccionadas);
-      }, function () {
+        modalInstanceProg.result.then(function (entidadsSeleccionadas) {
+          vm.ultimaEntidad = entidadsSeleccionadas;
+          onSelect(entidadsSeleccionadas);
+        }, function () {
 
-      });
+        });
+      }
+
     }
     function checkDatos() {
       if (vm.entidades === undefined || vm.entidades.length === 0) {
@@ -82,6 +101,11 @@
       } else {
         vm.ultimaEntidad = (vm.ultimaEntidad !== undefined) ? vm.ultimaEntidad : vm.entidades[0];
       }
+      if(vm.configuracion.fixMarginTop){
+        vm.customStyle = {'margin-top': '0px'};
+      }else{
+        vm.customStyle = {'margin-top': '34px'};
+      };
     }
 
     function cargarCampos(select) {
@@ -112,10 +136,15 @@
       return o;
     }
 
+    /**
+     *
+     * @param item item que se selecciono
+     * @param type tipo, si es nuevo type=1, sino type=0
+     */
     function onSelect(item) {
       if(!vm.clickItem)return;
       vm.clickItem({
-        $event: item
+        $event: item, $nuevo: item.nuevo||false
       });
     }
 
@@ -140,4 +169,3 @@
     }
   }
 })(angular);
-
